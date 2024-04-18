@@ -1,0 +1,7 @@
+D:\ADONET\DZ3\bin\Debug\DZ3.exe.config
+D:\ADONET\DZ3\bin\Debug\DZ3.exe
+D:\ADONET\DZ3\bin\Debug\DZ3.pdb
+D:\ADONET\DZ3\obj\Debug\DZ3.csproj.AssemblyReference.cache
+D:\ADONET\DZ3\obj\Debug\DZ3.csproj.CoreCompileInputs.cache
+D:\ADONET\DZ3\obj\Debug\DZ3.exe
+D:\ADONET\DZ3\obj\Debug\DZ3.pdb

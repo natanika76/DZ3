@@ -1,0 +1,61 @@
+CREATE TABLE Managers (
+    ManagerID INT PRIMARY KEY,
+    ManagerName NVARCHAR(50)
+);
+
+CREATE TABLE Sales (
+    SaleID INT PRIMARY KEY,
+    ManagerID INT,
+    SaleDate DATE,
+    SaleAmount DECIMAL(10,2),
+    Quantity INT,
+    ProductID INT,
+    FOREIGN KEY (ManagerID) REFERENCES Managers(ManagerID)
+);
+
+CREATE TABLE Products (
+    ProductID INT PRIMARY KEY,
+    ProductName NVARCHAR(50),
+    ProductType NVARCHAR(50),
+    UnitPrice DECIMAL(10,2)
+);
+
+CREATE TABLE Customers (
+    CustomerID INT PRIMARY KEY,
+    CustomerName NVARCHAR(50)
+);
+
+CREATE TABLE Purchases (
+    PurchaseID INT PRIMARY KEY,
+    CustomerID INT,
+    SaleID INT,
+    PurchaseDate DATE,
+    FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID),
+    FOREIGN KEY (SaleID) REFERENCES Sales(SaleID)
+);
+
+CREATE PROCEDURE GetTopManagerBySalesProfitInRange
+    @StartDate DATE,
+    @EndDate DATE
+AS
+BEGIN
+    SELECT TOP 1 ManagerID
+    FROM Sales
+    WHERE SaleDate BETWEEN @StartDate AND @EndDate
+    GROUP BY ManagerID
+    ORDER BY SUM(SaleAmount) DESC;
+END;
+
+CREATE PROCEDURE GetProductsNotSoldForDays
+    @Days INT
+AS
+BEGIN
+    SELECT ProductName
+    FROM Products
+    WHERE ProductID NOT IN (
+        SELECT DISTINCT ProductID
+        FROM Sales
+        WHERE DATEDIFF(DAY, SaleDate, GETDATE()) <= @Days
+    );
+END;
+
